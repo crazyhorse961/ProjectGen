@@ -17,6 +17,8 @@ class Generator {
 
     def item
 
+    def lived = 0
+
     def active = true
 
     Generator(def seconds, def name, def location, def item){
@@ -43,5 +45,11 @@ class Generator {
     }
     def start(){
         active = true
+    }
+    def increaseLived(){
+        lived++
+    }
+    def resetLived(){
+        lived = 0
     }
 }

@@ -1,8 +1,12 @@
 package net.zentya.projectgen
 
-import com.google.common.io.Files
 import net.zentya.projectgen.cooldown.Cooldown
+import net.zentya.projectgen.generator.GeneratorManager
 import net.zentya.projectgen.listeners.OpenListener
+import net.zentya.projectgen.runnables.ChestCheck
+import net.zentya.projectgen.utils.ClickActions
+import org.bukkit.Bukkit
+import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -23,16 +27,20 @@ class ProjectGen extends JavaPlugin
     }
 
     @Override
-    def onEnable(){
+    void onEnable(){
         saveDefaultConfig()
         server.pluginManager.registerEvents(new OpenListener(), this)
         cooldown = new Cooldown()
         createFiles()
+        GeneratorManager.getInstance().initGenerators()
+        Bukkit.scheduler.scheduleSyncRepeatingTask(this, new ChestCheck(), 0, 20)
+        ClickActions.init(this)
     }
 
     @Override
-    def onDisable(){
+    void onDisable(){
         saveConfig()
+        ((FileConfiguration) storage).save(storageFile)
     }
 
     static ProjectGen getInstance(){
