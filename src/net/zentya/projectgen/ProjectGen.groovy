@@ -1,7 +1,9 @@
 package net.zentya.projectgen
 
+import com.google.common.io.Files
 import net.zentya.projectgen.cooldown.Cooldown
 import net.zentya.projectgen.listeners.OpenListener
+import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.plugin.java.JavaPlugin
 
 /**
@@ -11,7 +13,10 @@ class ProjectGen extends JavaPlugin
 {
 
     static def instance
-    private def cooldown;
+    private def cooldown
+    def storageFile
+    def storage
+
 
     static{
         instance = this
@@ -22,6 +27,7 @@ class ProjectGen extends JavaPlugin
         saveDefaultConfig()
         server.pluginManager.registerEvents(new OpenListener(), this)
         cooldown = new Cooldown()
+        createFiles()
     }
 
     @Override
@@ -32,7 +38,19 @@ class ProjectGen extends JavaPlugin
     static ProjectGen getInstance(){
         return instance
     }
-    Cooldown getCooldown(){
+    def getCooldown(){
         return cooldown
+    }
+
+    def getStorage(){
+        return storage
+    }
+
+    def createFiles(){
+        storageFile = new File(dataFolder, "storage.yml")
+        if(!storageFile.exists()){
+            storageFile.createNewFile()
+        }
+        storage = YamlConfiguration.loadConfiguration(storageFile)
     }
 }

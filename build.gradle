@@ -2,22 +2,25 @@ group 'net.zentya'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'groovy'
+apply plugin: 'java'
 
 repositories {
     mavenCentral()
     maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
+    maven { url "https://oss.sonatype.org/content/groups/public" }
 }
 
 dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.3.11'
     compile 'org.spigotmc:spigot-api:1.11.2-R0.1-SNAPSHOT'
     compile 'org.bukkit:bukkit:1.11.2-R0.1-SNAPSHOT'
+    compile 'net.md-5:bungeecord-chat:1.11-SNAPSHOT'
 }
 
 sourceSets {
     main {
         java {
-            srcDirs = ['src']
+            srcDir 'src'
         }
     }
 }
